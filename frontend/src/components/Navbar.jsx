@@ -41,13 +41,24 @@ const Navbar =()=>{
                 </NavLink>
                 
             
-                <NavLink to={"/about"} className={linkStyle} >
+                <NavLink to={"/about"} onClick={()=> setDisplayNav("hidden")} className={linkStyle} >
                     About
                 </NavLink>
-                
-                <NavLink to={"#contact"} className={linkStyle} onClick={()=> setDisplayNav("hidden")} >
-                    Contact
+
+                <NavLink to={"/cost-emulator"} onClick={()=> setDisplayNav("hidden")} className={linkStyle} >
+                    Cost Emulator
                 </NavLink>
+
+                <NavLink to={"/terms-and-conditions"} onClick={()=> setDisplayNav("hidden")} className={linkStyle} >
+                    Terms and Conditions
+                </NavLink>
+                
+                <a onClick={()=> {
+                    navigtor("/about")
+                    setDisplayNav("hidden")
+                    }} href="#Contact" className={linkStyle}  >
+                    Contact
+                </a>
 
                 
             </ul>

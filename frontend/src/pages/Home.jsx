@@ -10,6 +10,7 @@ import HowItWork from '@/components/homepage/HowItWorks';
 import SolidButton from '@/components/primary/Buttons/SolidButton';
 import { useNavigate } from 'react-router-dom';
 import AppText from '@/components/primary/text/AppText';
+import Footer from '@/components/Footer'
 
 const InfoCard =({title , desc , logo})=>{
     return(
@@ -106,6 +107,8 @@ const Home =()=>{
           </div>
         </div>
             </AppSection>
+
+            <Footer />
             
         </>
     )
