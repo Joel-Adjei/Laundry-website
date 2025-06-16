@@ -4,9 +4,18 @@ import HeroSection from '../components/homepage/HeroSection';
 import AppSection from '@/components/primary/AppSection';
 import { colors } from '@/assets/assest';
 import {TextAnimate} from '@/components/magicui/text-animate';
+import { BlurFade } from '@/components/magicui/blur-fade';
 
-const infoCard =()=>{
-    
+const InfoCard =({title , desc , logo})=>{
+    return(
+      <BlurFade inView duration={0.6}>
+        <div className="bg-white/20 rounded-2xl p-6 text-center">
+          {logo}
+            <TextAnimate as='h3' once={true} delay={0.3} startOnView className="font-semibold mb-2 text-green-950 md:text-2xl">{title}</TextAnimate>
+             <TextAnimate as='p' once={true} delay={0.4} className="text-sm text-blue-100">{desc}</TextAnimate>
+        </div>
+      </BlurFade>
+    )
 }
 
 const Home =()=>{
@@ -20,26 +29,26 @@ const Home =()=>{
             <div className="relative">
               <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-4 md:p-8 shadow-2xl">
                 <div className="grid grid-cols-2 gap-6">
-                  <div className="bg-white/20 rounded-2xl p-6 text-center">
-                    <Truck className="h-12 w-12 text-yellow-300 mx-auto mb-3" />
-                    <TextAnimate as='h3' startOnView className="font-semibold mb-2 md:text-2xl">Free Pickup</TextAnimate>
-                    <TextAnimate as='p' delay={0.3} className="text-sm text-blue-100">We come to you</TextAnimate>
-                  </div>
-                  <div className="bg-white/20 rounded-2xl p-6 text-center">
-                    <Sparkles className="h-12 w-12 text-yellow-300 mx-auto mb-3" />
-                    <h3 className="font-semibold mb-2">Pro Cleaning</h3>
-                    <p className="text-sm text-blue-100">Expert care</p>
-                  </div>
-                  <div className="bg-white/20 rounded-2xl p-6 text-center">
-                    <Clock className="h-12 w-12 text-yellow-300 mx-auto mb-3" />
-                    <h3 className="font-semibold mb-2">Fast Delivery</h3>
-                    <p className="text-sm text-blue-100">Back to you</p>
-                  </div>
-                  <div className="bg-white/20 rounded-2xl p-6 text-center">
-                    <CreditCard className="h-12 w-12 text-yellow-300 mx-auto mb-3" />
-                    <h3 className="font-semibold mb-2">Easy Payment</h3>
-                    <p className="text-sm text-blue-100">50% now, 50% later</p>
-                  </div>
+                  <InfoCard 
+                    title={"Free Pickup"}
+                    desc={"We come to you"}
+                    logo={<Truck className="h-12 w-12 text-green-100 mx-auto mb-3" />}
+                  />
+                  <InfoCard 
+                    title={"Pro Cleaning"}
+                    desc={"Expert care"}
+                    logo={<Sparkles className="h-12 w-12 text-green-100 mx-auto mb-3" />}
+                  />
+                  <InfoCard 
+                    title={"Fast Delivery"}
+                    desc={"Back to you"}
+                    logo={<Clock className="h-12 w-12 text-green-100 mx-auto mb-3" />}
+                  />
+                  <InfoCard 
+                    title={"Easy Payment"}
+                    desc={"50% now, 50% later"}
+                    logo={<CreditCard className="h-12 w-12 text-green-100 mx-auto mb-3" />}
+                  />
                 </div>
               </div>
             </div>

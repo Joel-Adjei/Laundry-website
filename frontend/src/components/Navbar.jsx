@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { NavLink ,useNavigate  } from 'react-router-dom';
-import { MenuIcon ,ChevronUpIcon  } from 'lucide-react';
+import { MenuIcon , X  } from 'lucide-react';
 import SolidButton from './primary/Buttons/SolidButton';
-import { BlurFade } from '@/components/magicui/blur-fade';
+import { images } from '@/assets/assest';
 
 const linkStyle = "px-12 py-2 rounded-full text-green-900 font-medium hover:bg-green-200 active:text-white active:bg-green-700 md:px-5 md:px-1"
 const Navbar =()=>{
@@ -15,20 +15,23 @@ const Navbar =()=>{
             <div className='flex gap-2'>
                 {
                     displayNav === "hidden" ?
-                    <button className='md:hidden'
+                    <button className='md:hidden p-1 rounded-sm bg-gray-300'
                     onClick={()=> setDisplayNav("flex")}
                     >
-                        <MenuIcon className=' text-2xl' />
+                        <MenuIcon className='text-gray-600 text-2xl' />
                     </button>
-                    : <button className='mSd:hidden'
+                    : <button className='md:hidden p-1 rounded-sm bg-gray-100'
                         onClick={()=> setDisplayNav("hidden")}
                     >
-                        <ChevronUpIcon className=' text-2xl' />
+                        <X className=' text-green-950 text-2xl' />
                     </button>
                 }
                 
                 
-                Logo
+                <div className='flex items-center gap-2'>
+                    <img src={images.mainLogo} alt="logo" className='h-10 w-10 md:h-8 md:w-8'  />
+                    <h5 className={`text-green-950 text-md font-bold leading-4.5`}>Neam's <span className='font-light'>Laundry Service</span> </h5>
+                </div>
             </div>
 
           
