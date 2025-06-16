@@ -1,10 +1,15 @@
 import React from 'react';
-import { Truck , Sparkles , Clock , CreditCard} from 'lucide-react'
+import { Truck , Sparkles , Clock , CheckCircle , CreditCard} from 'lucide-react'
 import HeroSection from '../components/homepage/HeroSection';
 import AppSection from '@/components/primary/AppSection';
+import AppHeader from '@/components/primary/text/AppHeader';
 import { colors } from '@/assets/assest';
 import {TextAnimate} from '@/components/magicui/text-animate';
 import { BlurFade } from '@/components/magicui/blur-fade';
+import HowItWork from '@/components/homepage/HowItWorks';
+import SolidButton from '@/components/primary/Buttons/SolidButton';
+import { useNavigate } from 'react-router-dom';
+import AppText from '@/components/primary/text/AppText';
 
 const InfoCard =({title , desc , logo})=>{
     return(
@@ -19,6 +24,7 @@ const InfoCard =({title , desc , logo})=>{
 }
 
 const Home =()=>{
+  const navigator = useNavigate()
 
     return(
         <>
@@ -53,6 +59,54 @@ const Home =()=>{
               </div>
             </div>
             </AppSection>
+
+            <HowItWork />
+
+            <AppSection className={'bg-gray-50 py-10'}>
+              <div className="max-w-4xl mx-auto px-4 text-center">
+                <AppHeader
+                  title_1={"Save"}
+                  title_2={"Your Time"}
+                 />
+                <BlurFade inView delay={0.2}>
+                  <AppText className={"mb-2"}>
+                  Join hundreds of satisfied customers who trust us with their laundry. 
+                   Experience the convenience today!
+                 </AppText>
+                </BlurFade>
+                 
+          
+          <div className="flex flex-col gap-4 justify-center items-center">
+                <BlurFade inView delay={0.4} direction='left'>
+                  <SolidButton 
+                    onClick={()=> navigator("/book") }
+                    title={" Start Your Order"} 
+                  />
+                </BlurFade>
+                
+
+            <BlurFade inView delay={0.6} direction='right'>
+              <div className="flex items-center space-x-4 text-sm">
+              <div className="flex items-center">
+                <CheckCircle className="h-4 w-4 text-green-400 mr-1" />
+                <span>Free Pickup</span>
+              </div>
+              <div className="flex items-center">
+                <CheckCircle className="h-4 w-4 text-green-400 mr-1" />
+                <span>Professional Care</span>
+              </div>
+              <div className="flex items-center">
+                <CheckCircle className="h-4 w-4 text-green-400 mr-1" />
+                <span>Fast Delivery</span>
+              </div>
+            </div>
+            </BlurFade>
+            
+
+          </div>
+        </div>
+            </AppSection>
+            
         </>
     )
 }

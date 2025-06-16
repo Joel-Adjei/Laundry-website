@@ -11,7 +11,6 @@ const Navbar =()=>{
     return(
         <>
         <nav className={`w-full fixed top-0 backdrop-blur-[8px] flex items-center justify-between px-4 py-2 bg-green-50/30 z-50 `}>
-            
             <div className='flex gap-2'>
                 {
                     displayNav === "hidden" ?
@@ -42,12 +41,9 @@ const Navbar =()=>{
                 </NavLink>
                 
             
-                <a onClick={()=> {
-                    navigtor("/")
-                    setDisplayNav("hidden")
-                    }} href='#About' className={linkStyle} >
+                <NavLink to={"/about"} className={linkStyle} >
                     About
-                </a>
+                </NavLink>
                 
                 <NavLink to={"#contact"} className={linkStyle} onClick={()=> setDisplayNav("hidden")} >
                     Contact
@@ -55,7 +51,6 @@ const Navbar =()=>{
 
                 
             </ul>
-           
 
             <SolidButton
                 title={"Book"}
