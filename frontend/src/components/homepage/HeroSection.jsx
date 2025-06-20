@@ -10,7 +10,7 @@ import { BlurFade } from '@/components/magicui/blur-fade';
 const HeroSection =()=>{
     const navgator = useNavigate()
     return(
-        <AppSection className={"flex relative items-center justify-center flex-col pt-14 md:pt-5 md:flex-row"}>
+        <AppSection id={"Hero"} className={"flex relative items-center justify-center flex-col pt-14 sm:pt- md:pt-15 lg:pt-6 md:flex-row"}>
             <div>
                 <div className="space-y-4">
                   <BlurFade delay={0.2} inView>

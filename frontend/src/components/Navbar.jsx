@@ -29,14 +29,14 @@ const Navbar =()=>{
                 
                 <div className='flex items-center gap-2'>
                     <img src={images.mainLogo} alt="logo" className='h-10 w-10 md:h-8 md:w-8'  />
-                    <h5 className={`text-green-950 text-md font-bold leading-4.5`}>Neam's <span className='font-light'>Laundry Service</span> </h5>
+                    <h5 className={`text-green-950 text-md font-bold leading-4.5`}>Naem's <span className='font-light'>Laundry Service</span> </h5>
                 </div>
             </div>
 
           
         
             <ul className={`${displayNav} fixed bg-gray-100 w-full top-14 left-0 items-center flex-col py-1 gap-1 z-50 md:flex md:bg-transparent md:w-fit md:gap-2 md:top-0 md:relative md:flex-row md:p-0`}>
-                <NavLink to={"/"} className={linkStyle} onClick={()=> setDisplayNav("hidden")} >
+                <NavLink to={"/"}   className={linkStyle} onClick={()=> setDisplayNav("hidden")} >
                     Home
                 </NavLink>
                 

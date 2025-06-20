@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useEffect} from 'react';
 import { Truck , Sparkles , Clock , CheckCircle , CreditCard} from 'lucide-react'
 import HeroSection from '../components/homepage/HeroSection';
 import AppSection from '@/components/primary/AppSection';
@@ -8,7 +8,7 @@ import {TextAnimate} from '@/components/magicui/text-animate';
 import { BlurFade } from '@/components/magicui/blur-fade';
 import HowItWork from '@/components/homepage/HowItWorks';
 import SolidButton from '@/components/primary/Buttons/SolidButton';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useLocation } from 'react-router-dom';
 import AppText from '@/components/primary/text/AppText';
 import Footer from '@/components/Footer'
 
@@ -25,13 +25,18 @@ const InfoCard =({title , desc , logo})=>{
 }
 
 const Home =()=>{
+  const location = useLocation()
   const navigator = useNavigate()
+
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
 
     return(
         <>
             {/* Hero Section */}
             <HeroSection />
-            <AppSection id={"About"} className={colors.gradientColor}>
+            <AppSection className={colors.gradientColor}>
                 
             <div className="relative">
               <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-4 md:p-8 shadow-2xl">
@@ -107,8 +112,6 @@ const Home =()=>{
           </div>
         </div>
             </AppSection>
-
-            <Footer />
             
         </>
     )

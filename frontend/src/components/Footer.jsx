@@ -8,7 +8,7 @@ const Footer =()=>{
     const navigator = useNavigate()
 
     return(
-        <footer className="bg-blue-950  text-white w-full px-5 pt-10 pb-2 md:px-10 md:pt-15 xl:px-10 xl:pt-20  ">
+        <div className="bg-blue-950  text-white w-full px-5 pt-10 pb-2 md:px-10 md:pt-15 xl:px-10 xl:pt-20  ">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
@@ -54,7 +54,7 @@ const Footer =()=>{
             <p>&copy; 2025 NAEM's Laundry Service. All rights reserved.</p>
           </div>
         </div>
-      </footer>
+      </div>
     )
 }
 
