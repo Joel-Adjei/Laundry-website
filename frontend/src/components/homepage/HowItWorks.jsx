@@ -16,7 +16,7 @@ const StepCard = ({number , title , desc , logo , color})=>{
             
             <BlurFade delay={0.3} inView>
                 <h3 className="text-2xl font-semibold text-gray-700 mb-4">{title}</h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-600 text-md md:text-lg leading-relaxed">
                     {desc}
                 </p>
             </BlurFade>

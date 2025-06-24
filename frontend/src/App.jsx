@@ -2,10 +2,9 @@ import React , { useState } from 'react'
 import { Routes, Route, NavLink, createBrowserRouter , createRoutesFromElements, RouterProvider } from 'react-router-dom'
 import Home from './pages/Home'
 import Book from './pages/Book'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
 import About from './pages/About'
 import RootLayout from './layout/RootLayout'
+import {NaemsContextProvider} from "@/context/NaemsContext";
 
 
 function App() {
@@ -20,7 +19,9 @@ function App() {
   )
   return (
     <>
-      <RouterProvider router={router} />
+        <NaemsContextProvider>
+            <RouterProvider router={router} />
+        </NaemsContextProvider>
     </>
   )
 }

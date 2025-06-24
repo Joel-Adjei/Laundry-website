@@ -1,13 +1,14 @@
 import React, {useState , useEffect} from 'react';
 import AppSection from '@/components/primary/AppSection'
 import AppHeader from '@/components/primary/text/AppHeader'
-import {Sparkles , Clock , Shield ,Heart, Users} from 'lucide-react'
+import {Dot, Clock, Shield, Heart, Users, Droplet, ShirtIcon, Sparkle, CheckCircle} from 'lucide-react'
 import { TextAnimate } from '@/components/magicui/text-animate';
 import { BlurFade } from '@/components/magicui/blur-fade';
-import Footer from '@/components/Footer'
-import { colors } from '@/assets/assest';
+import {colors, images , services} from '@/assets/assest';
 import AppText from '@/components/primary/text/AppText';
 import OutlineButton from '@/components/primary/Buttons/OutlineButton';
+
+
 
 const stats = [
     { number: '50K+', label: 'Happy Customers' },
@@ -18,54 +19,47 @@ const stats = [
 
   const values = [
     {
-      icon: <Sparkles className="w-8 h-8 text-blue-500" />,
-      title: 'Quality First',
-      description: 'We use premium detergents and advanced cleaning techniques to ensure your clothes look and feel their best.'
+      icon: <Sparkle size={40} />,
+      title: 'Convenience',
+      description: 'Our door-to-door service ensures that your laundry is collected from and returned to your doorstep, providing unparalleled convenience.'
     },
     {
-      icon: <Clock className="w-8 h-8 text-green-500" />,
-      title: 'Fast & Reliable',
-      description: 'Quick turnaround times without compromising quality. We respect your time and keep our promises.'
+      icon:  <Shield size={40} />,
+      title: 'Operational Efficiency',
+      description: 'Our team will collect your laundry, wash, iron, and package it with utmost care, and return it to you within 24 hours.'
     },
     {
-      icon: <Shield className="w-8 h-8 text-purple-500" />,
-      title: 'Eco-Friendly',
-      description: 'Environmentally conscious cleaning solutions that are safe for you, your family, and the planet.'
+      icon: <Clock size={40} />,
+      title: 'Timely Delivery',
+      description: 'We guarantee prompt delivery of your laundry, returning it to your doorstep within 24 hours of collection.'
     },
     {
-      icon: <Heart className="w-8 h-8 text-red-500" />,
+      icon: <Heart size={40} />,
       title: 'Care & Attention',
       description: 'Every garment receives personal attention. We treat your clothes like they\'re our own.'
     }
   ];
 
-const About =()=>{
-    const [loading , setLoading] = useState(true)
 
-    useEffect(()=>{
-        setTimeout(()=>{
-            setLoading(false)
-        }, 1500)
-        window.scrollTo(0,0)
-    },[])
+const About =()=>{
 
     return(
-        <>{ loading ? <div className={'h-[100vh] w-full flex items-center justify-center'}> isloading</div> : <>
-            <AppSection className={"bg-green-50 mt-10"}>
+        <>
+            <AppSection className={"relative bg-green-50 mt-10"}>
                 <AppHeader
                     title_1={"About"}
                     title_2={"Us"}
                  />
 
-                 <TextAnimate once as='p' className={"mb-2 text-center"}>
+                 <TextAnimate once as='p' className={"z-10 text-md md:text-lg text-gray-600 mb-2 text-center "}>
                     At Naem's Laundry Service, we understand that life gets busy. That's why we've created a 
                     convenient, reliable laundry service that comes to you. Simply place your order through 
-                    our website, and we'll handle the rest – from pickup to professional washing and delivery 
+                    our website, and we'll handle the rest, from pickup to professional washing and delivery
                     right back to your doorstep.
                  </TextAnimate>
             </AppSection>
 
-            <BlurFade direction='right' inView>
+            <BlurFade direction='right' duration={0.7} delay={0.6} inView>
             <AppSection className={`${colors.gradientColor} py-16 px-4`} >
                 <section>
                 <div className="max-w-6xl mx-auto">
@@ -85,50 +79,24 @@ const About =()=>{
             </BlurFade>
 
 
-            <BlurFade direction='left' inView>
-            <AppSection className={'bg-blue-50'}>
-                <AppHeader title_1={"Our"} title_2={"Journey"} />
+            <BlurFade direction='down' duration={0.7} delay={0.5} inView>
+            <AppSection className={"relative"}>
+                <img src={images.washingMachines} className={"z-0 left-0 top-0 opacity-8 absolute size-full object-cover"} />
 
-                <main className="container mx-auto flex-grow">
-        
-                <div className="flex flex-col md:flex-row-reverse items-center gap-10 lg:gap-16">
-                {/* Image for Our Journey */}
-                    <div className="md:w-1/2 flex justify-center items-center">
-                        <img
-                            src="https://placehold.co/600x400/93c5fd/ffffff?text=Quality+Laundry+Service"
-                            alt="Professional laundry service in action"
-                            className="rounded-2xl shadow-lg w-full max-w-md md:max-w-none h-auto object-cover transform hover:scale-105 transition-transform duration-300 ease-in-out"
-                            onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/600x400/cccccc/000000?text=Image+Loading+Failed"; }}
-                        />
-                    </div>
-                    <div className="md:w-1/2 text-center md:text-left">
-                        <AppText className="text-lg leading-relaxed text-gray-700 mb-4">
-                            Born out of a simple idea – to make laundry effortless and exceptional for everyone – <span className="font-semibold text-blue-600">Naem's Laundry Service</span> began its journey years ago. We observed the daily grind, the overflowing hampers, and the precious time lost to laundry chores. That's when we decided to create a service that stands for unparalleled cleanliness, convenience, and care.
-                        </AppText>
-                        <AppText className="text-lg leading-relaxed text-gray-700">
-                            From our humble beginnings, we've grown into a trusted name, serving our community with a passion for pristine garments and delighted customers. Every fold, every wash, every delivery is handled with the dedication you deserve.
-                        </AppText>
-                    </div>
-                </div>
-                </main>
-            </AppSection>
-            </BlurFade>
-
-
-            <BlurFade direction='down' inView>
-            <AppSection>
                 <AppHeader title_1={"Our"} title_2={"Values"} />
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {values.map((value, index) => (
-                        <div key={index} className="p-4 group">
-                            <div className="mb-4 h-45 rounded shadow bg-gray-400 group-hover:scale-110 transition-transform duration-300">
-                                {/* {value.icon}  */}
+                        <div key={index} className="bg-gradient-to-tr from-green-950 to-green-800 z-10 rounded-md flex gap-4 items-center p-4 group hover:scale-110 transition-transform duration-300">
+                            <div className=" p-2 text-3xl text-green-500 rounded-md  shadow bg-gray-50 ">
+                                {value.icon}
                             </div>
+
+                            <div className={"h-[80px] w-[4px] rounded-full bg-white"}></div>
                             
                             <div>
-                                <h3 className="text-xl font-bold text-gray-800 mb-2">{value.title}</h3>
-                                <p className="text-gray-600 leading-relaxed">{value.description}</p>
+                                <h3 className="text-xl font-bold text-green-200 mb-2">{value.title}</h3>
+                                <AppText className="text-white leading-relaxed">{value.description}</AppText>
                             </div>
                             
                         </div>
@@ -137,8 +105,64 @@ const About =()=>{
             </AppSection>
             </BlurFade>
 
+            <BlurFade direction='right' duration={0.7} inViewMargin={"-120px"} offset={10} delay={0.5} inView>
+                <AppSection className={'bg-blue-50'}>
+                    <AppHeader
+                        title_1={"Comprehensive "}
+                        title_2={"Services"}
+                        flexType={"flex-col sm:flex-row"}
+                        desc={"Our services include"}
+                    />
 
-            <BlurFade direction='right' inView>
+                    <div className={"grid grid-cols-1 sm:grid-cols-2 justify-center md:grid-cols-3 gap-3"}>
+                        {
+                            services.map((value, index)=>(
+                                <div key={index} className={ "flex flex-col items-center gap-2 bg-white rounded-2xl border-4 border-blue-600 p-4 shadow-lg z-0"}>
+                                    <div className={"h-40 w-full bg-gray-100 rounded-md"} >
+                                        <img src={value.image} className={"size-full rounded-md object-cover"} />
+                                    </div>
+
+                                    <div >
+                                        <h3 className="text-2xl bold text-blue-800 leading-relaxed">
+                                            {value.title}
+                                        </h3>
+                                    </div>
+                                </div>
+                            ))
+                        }
+
+                    </div>
+                </AppSection>
+            </BlurFade>
+
+            <AppSection className={"flex flex-col gap-3 md:flex-row md:gap-0"}>
+                <div className={"h-60 md:h-full md:w-1/2"}>
+                    <img src={images.delivery} className={"size-full shadow-md border-4 border-green-200 object-cover rounded-lg"} />
+                </div>
+                <div className={"m-auto"}>
+                    <AppHeader title_1={'Benefit'} />
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <div className={"w-[10px] h-[10px] rounded-full bg-green-400"}></div>
+                            <AppText>No need to leave your hall or hostel </AppText>
+                        </div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <div className={"w-[10px] h-[10px] rounded-full bg-green-400"}></div>
+                            <AppText>Hassle-free laundry experience</AppText>
+                        </div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <div className={"w-[10px] h-[10px] rounded-full bg-green-400"}></div>
+                            <AppText className={"px-0 mx-0"}>Quality service guaranteed</AppText>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </AppSection>
+
+
+            <BlurFade direction='right' duration={0.7} delay={0.5} inView>
             <AppSection className={`${colors.gradientColor} `}>
                 <div className="max-w-4xl mx-auto text-center">
           
@@ -146,7 +170,7 @@ const About =()=>{
                     Ready to Experience the CleanCare Difference?
                 </h2>
                 <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-                    Join thousands of satisfied customers who trust us with their laundry. 
+                    Join hundreds of satisfied customers who trust us with their laundry.
                     Experience quality, convenience, and care like never before.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -163,16 +187,15 @@ const About =()=>{
             </AppSection>
             </BlurFade>
 
+
             <AppSection id={"Contact"} className={"bg-gray-50"}>
+
                 <AppHeader
                     title_1={"Contact "}
                     title_2={"Us"}
                 />
-                
 
             </AppSection>
-
-        </>} 
         </>
         
     )

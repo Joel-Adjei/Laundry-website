@@ -3,7 +3,7 @@ import { TextAnimate } from '@/components/magicui/text-animate'
 
 const AppText=({children , className})=>{
     return(
-        <p className={`${className} text-xl text-gray-700`}>
+        <p className={`${className} text-md md:text-lg text-gray-700`}>
             {children}
         </p>
     )

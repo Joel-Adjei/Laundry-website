@@ -10,7 +10,7 @@ import HowItWork from '@/components/homepage/HowItWorks';
 import SolidButton from '@/components/primary/Buttons/SolidButton';
 import { useNavigate , useLocation } from 'react-router-dom';
 import AppText from '@/components/primary/text/AppText';
-import Footer from '@/components/Footer'
+import {useNaems} from "@/context/NaemsContext";
 
 const InfoCard =({title , desc , logo})=>{
     return(
@@ -18,7 +18,7 @@ const InfoCard =({title , desc , logo})=>{
         <div className="bg-white/20 rounded-2xl p-6 text-center">
           {logo}
             <TextAnimate as='h3' once={true} delay={0.3} startOnView className="font-semibold mb-2 text-green-950 md:text-2xl">{title}</TextAnimate>
-             <TextAnimate as='p' once={true} delay={0.4} className="text-sm text-blue-100">{desc}</TextAnimate>
+             <TextAnimate as='p' once={true} delay={0.4} className=" text-md md:text-xl text-blue-100">{desc}</TextAnimate>
         </div>
       </BlurFade>
     )
@@ -28,7 +28,10 @@ const Home =()=>{
   const location = useLocation()
   const navigator = useNavigate()
 
+    const { setLoading } = useNaems()
+
   useEffect(()=>{
+      // setLoading(true)
     window.scrollTo(0,0)
   },[])
 
