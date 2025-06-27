@@ -3,9 +3,12 @@ import { Mail , Phone , MapPin } from 'lucide-react';
 import AppSection from './primary/AppSection';
 import { useNavigate } from 'react-router-dom';
 import { images } from '@/assets/assest'
+import {useNaems} from "@/context/NaemsContext";
+import AppText from "@/components/primary/text/AppText";
 
 const Footer =()=>{
     const navigator = useNavigate()
+    const { setLoading} = useNaems()
 
     return(
         <div className="bg-blue-950  text-white w-full px-5 pt-10 pb-2 md:px-10 md:pt-15 xl:px-10 xl:pt-20  ">
@@ -25,8 +28,14 @@ const Footer =()=>{
             <div>
               <h3 className="text-lg font-semibold mb-4">Company</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a onClick={()=> navigator("/")} className="hover:text-white cursor-pointer">Home</a></li>
-                <li><a onClick={()=> navigator("/about")} className="hover:text-white cursor-pointer">About Us</a></li>
+                <li><a onClick={()=> {
+                    navigator("/")
+                    setLoading(true)
+                }} className="hover:text-white cursor-pointer">Home</a></li>
+                <li><a onClick={()=> {
+                    setLoading(true)
+                    navigator("/about")
+                }} className="hover:text-white cursor-pointer">About Us</a></li>
                 <li><a onClick={()=> navigator("/")} href="#HowItWorks" className="hover:text-white cursor-pointer">How It Works</a></li>
               </ul>
             </div>
@@ -36,7 +45,7 @@ const Footer =()=>{
               <div className="space-y-2 text-gray-400">
                 <div className="flex items-center">
                   <Phone className="h-4 w-4 mr-2" />
-                  <span>+233 XX XXX XXXX</span>
+                  <span>0556807422 / 0505705463</span>
                 </div>
                 <div className="flex items-center">
                   <Mail className="h-4 w-4 mr-2" />

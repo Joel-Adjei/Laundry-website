@@ -8,7 +8,7 @@ import {useNaems} from "@/context/NaemsContext";
 const linkStyle = "px-12 py-2 rounded-full text-green-900 font-medium hover:bg-green-200 active:text-white active:bg-green-700 md:px-5 md:px-1"
 const Navbar =()=>{
     const [displayNav , setDisplayNav]= useState("hidden")
-    const navigtor = useNavigate()
+    const navigator = useNavigate()
 
     const { setLoading } = useNaems()
     return(
@@ -72,7 +72,7 @@ const Navbar =()=>{
                 </NavLink>
                 
                 <a onClick={()=> {
-                    navigtor("/about")
+                    navigator("/about")
                     setDisplayNav("hidden")
                     }} href="#Contact" className={linkStyle}  >
                     Contact
@@ -84,7 +84,8 @@ const Navbar =()=>{
             <SolidButton
                 title={"Book"}
                 onClick={()=> {
-                    navigtor("/book")
+                    navigator("/book")
+                    setLoading(true)
                      setDisplayNav("hidden")
                 } }
              />

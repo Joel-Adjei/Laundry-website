@@ -1,4 +1,5 @@
 import React, {useState , useEffect} from 'react';
+import { useNavigate} from 'react-router-dom'
 import AppSection from '@/components/primary/AppSection'
 import AppHeader from '@/components/primary/text/AppHeader'
 import {Dot, Clock, Shield, Heart, Users, Droplet, ShirtIcon, Sparkle, CheckCircle} from 'lucide-react'
@@ -7,6 +8,7 @@ import { BlurFade } from '@/components/magicui/blur-fade';
 import {colors, images , services} from '@/assets/assest';
 import AppText from '@/components/primary/text/AppText';
 import OutlineButton from '@/components/primary/Buttons/OutlineButton';
+import Contact from "@/components/contact/Contact";
 
 
 
@@ -42,6 +44,7 @@ const stats = [
 
 
 const About =()=>{
+    const navigator = useNavigate()
 
     return(
         <>
@@ -175,11 +178,12 @@ const About =()=>{
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <OutlineButton 
-                        title={"Book Now"} 
-                        className=" transition-all duration-300 hover:transform hover:scale-105 shadow-lg"
+                        title={"Book Now"}
+                        onClick={()=> navigator("/book")}
+                        className="text-white transition-all duration-300 hover:transform hover:scale-105 shadow-lg"
                     />
                      
-                    <button className=" bg-green-50 font-bold text-green-900 px-7 py-3 rounded-full transition-all duration-300 hover:transform hover:scale-105">
+                    <button onClick={()=> navigator("/")} className=" bg-green-50 font-bold text-green-900 px-7 py-3 rounded-full transition-all duration-300 hover:transform hover:scale-105">
                         Estimate Cost
                     </button>
                 </div>
@@ -188,14 +192,7 @@ const About =()=>{
             </BlurFade>
 
 
-            <AppSection id={"Contact"} className={"bg-gray-50"}>
-
-                <AppHeader
-                    title_1={"Contact "}
-                    title_2={"Us"}
-                />
-
-            </AppSection>
+            <Contact />
         </>
         
     )

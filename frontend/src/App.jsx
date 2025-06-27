@@ -5,6 +5,8 @@ import Book from './pages/Book'
 import About from './pages/About'
 import RootLayout from './layout/RootLayout'
 import {NaemsContextProvider} from "@/context/NaemsContext";
+import Payment from "@/components/book/Payment";
+import BookLayout from "@/layout/BookLayout";
 
 
 function App() {
@@ -12,7 +14,10 @@ function App() {
     createRoutesFromElements(
       <Route path='/' element={<RootLayout />}>
         <Route index element={<Home />} />
-        <Route path='/book' element={<Book />} />
+        <Route path='book' element={<BookLayout />} >
+            <Route path={"payment"} element={<Payment />} />
+        </Route>
+
         <Route path='/about' element={<About />} />
       </Route>
     )
