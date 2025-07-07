@@ -57,13 +57,6 @@ const Navbar =()=>{
                     About
                 </NavLink>
 
-                <NavLink to={"/cost-emulator"} onClick={()=> {
-                    setDisplayNav("hidden")
-                    setLoading(true)
-                }} className={linkStyle} >
-                    Cost Emulator
-                </NavLink>
-
                 <NavLink to={"/terms-and-conditions"} onClick={()=> {
                     setDisplayNav("hidden")
                     setLoading(true)

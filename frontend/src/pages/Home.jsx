@@ -17,7 +17,7 @@ const InfoCard =({title , desc , logo})=>{
       <BlurFade inView duration={0.6}>
         <div className="bg-white/20 rounded-2xl p-6 text-center">
           {logo}
-            <TextAnimate as='h3' once={true} delay={0.3} startOnView className="font-semibold mb-2 text-green-950 md:text-2xl">{title}</TextAnimate>
+            <TextAnimate as='h3' once={true} delay={0.3} startOnView className="font-semibold mb-2 text-green-800 md:text-2xl">{title}</TextAnimate>
              <TextAnimate as='p' once={true} delay={0.4} className=" text-md md:text-xl text-blue-100">{desc}</TextAnimate>
         </div>
       </BlurFade>

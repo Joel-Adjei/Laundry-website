@@ -7,6 +7,7 @@ import RootLayout from './layout/RootLayout'
 import {NaemsContextProvider} from "@/context/NaemsContext";
 import Payment from "@/components/book/Payment";
 import BookLayout from "@/layout/BookLayout";
+import NotFound from "@/components/NotFound";
 
 
 function App() {
@@ -17,8 +18,8 @@ function App() {
         <Route path='book' element={<BookLayout />} >
             <Route path={"payment"} element={<Payment />} />
         </Route>
-
         <Route path='/about' element={<About />} />
+        <Route path={"*"} element={<NotFound />} />
       </Route>
     )
   )

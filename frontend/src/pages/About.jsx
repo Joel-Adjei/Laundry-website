@@ -183,9 +183,9 @@ const About =()=>{
                         className="text-white transition-all duration-300 hover:transform hover:scale-105 shadow-lg"
                     />
                      
-                    <button onClick={()=> navigator("/")} className=" bg-green-50 font-bold text-green-900 px-7 py-3 rounded-full transition-all duration-300 hover:transform hover:scale-105">
-                        Estimate Cost
-                    </button>
+                    {/*<button onClick={()=> navigator("/")} className=" bg-green-50 font-bold text-green-900 px-7 py-3 rounded-full transition-all duration-300 hover:transform hover:scale-105">*/}
+                    {/*    Estimate Cost*/}
+                    {/*</button>*/}
                 </div>
                 </div>
             </AppSection>
