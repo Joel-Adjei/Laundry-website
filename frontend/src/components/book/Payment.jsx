@@ -33,13 +33,12 @@ const Payment =()=>{
     const handleSubmit = () => {
         setLoading(true)
         try{
-            console.log(formData)
-            alet(transID)
+            // console.log(formData)
             navigator("/")
         }catch(error){
             console.log(error)
         }finally{
-            setResetForm(true)  
+            setResetForm(true)
         }
     
     };
@@ -52,13 +51,14 @@ const Payment =()=>{
     return (
         <div className={"z-60 w-full h-[100dvh] fixed top-0 left-0 flex items-center justify-center bg-gray-300/70"}>
 
-            <button
-                className={"size-12 absolute top-27 right-5 md:right-17 lg:right-78 flex items-center justify-center rounded-full cursor-pointer bg-gray-600 hover:bg-gray-500"}
-                onClick={()=> navigator(-1)}
-            >
-                <X className={"text-white text-lg"} />
-            </button>
-            <div className=" p-4 md:p-0 md:border border-green-500 rounded-xl">
+            <div className=" relative p-4 md:p-0 md:border border-green-500 rounded-xl">
+                <button
+                    className={"size-12 absolute top-2 right-2  flex items-center justify-center rounded-full cursor-pointer hover:bg-green-300/20"}
+                    onClick={()=> navigator(-1)}
+                >
+                    <X className={"text-white text-lg"} />
+                </button>
+
                 <h2 className="text-2xl font-bold bg-green-800 p-4 rounded-t-xl text-green-100 text-center">Payment Details</h2>
 
             <div className="p-3 rounded-b-xl bg-white mx-auto">

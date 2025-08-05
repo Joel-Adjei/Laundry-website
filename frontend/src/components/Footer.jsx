@@ -60,7 +60,7 @@ const Footer =()=>{
             </div>
           </div>
 
-          <div className="border-t border-blue-200 mt-8 pt-8 text-center text-gray-400">
+          <div className="border-t text-xs border-blue-200 mt-8 pt-8 text-center text-gray-400">
             <p>&copy; 2025 NAEM's Laundry Service. All rights reserved.</p>
           </div>
         </div>
