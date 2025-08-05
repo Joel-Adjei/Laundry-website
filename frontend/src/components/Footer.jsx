@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mail , Phone , MapPin } from 'lucide-react';
 import AppSection from './primary/AppSection';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { images } from '@/assets/assest'
 import {useNaems} from "@/context/NaemsContext";
 import AppText from "@/components/primary/text/AppText";

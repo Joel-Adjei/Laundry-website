@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import {legonHalls , accraCitiesTowns , basketSizes } from "@/assets/assest";
 import {useNaems} from "@/context/NaemsContext";
 import  {images} from "@/assets/assest";
@@ -12,7 +12,7 @@ const inputStyle = "w-full px-4 py-2 bg-blue-50 text-blue-950 border border-blue
 const BookingForm =()=>{
     const navigator = useNavigate()
 
-    const { formData , setFormData , message , setMessage } = useNaems();
+    const { formData , setFormData , resetForm , setMessage } = useNaems();
 
     // Initial values for the Formik form
     const initialFormValues = {
@@ -43,12 +43,14 @@ const BookingForm =()=>{
     });
 
     // Handle initial form submission (move to payment step)
-    const handleOrderSubmit = (values, { setSubmitting }) => {
+    const handleOrderSubmit = (values, { setSubmitting , resetForm }) => {
+        setSubmitting(true)
          console.log('Order Details:', values);
          setFormData(values)
         navigator("/book/payment")
         setSubmitting(false);
         setMessage(''); // Clear any previous messages
+    
     };
 
 

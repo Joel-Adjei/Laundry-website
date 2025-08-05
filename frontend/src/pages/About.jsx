@@ -1,5 +1,5 @@
 import React, {useState , useEffect} from 'react';
-import { useNavigate} from 'react-router-dom'
+import { useNavigate} from 'react-router'
 import AppSection from '@/components/primary/AppSection'
 import AppHeader from '@/components/primary/text/AppHeader'
 import {Dot, Clock, Shield, Heart, Users, Droplet, ShirtIcon, Sparkle, CheckCircle} from 'lucide-react'

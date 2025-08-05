@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { NavLink ,useNavigate  } from 'react-router-dom';
+import { NavLink ,useNavigate  } from 'react-router';
 import { MenuIcon , X  } from 'lucide-react';
 import SolidButton from './primary/Buttons/SolidButton';
 import { images } from '@/assets/assest';

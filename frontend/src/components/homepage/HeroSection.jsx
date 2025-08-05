@@ -1,6 +1,6 @@
 import React from 'react'
 import { ChevronRight, Sparkles, } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import washingM from '../../assets/images/washing-m-1.png'
 import AppSection from '../primary/AppSection';
 import SolidButton from '../primary/Buttons/SolidButton';

@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate} from "react-router-dom"
+import { useNavigate} from "react-router"
 import { MessageCircleWarning } from 'lucide-react'
 import OutlineButton from "@/components/primary/Buttons/OutlineButton";
 

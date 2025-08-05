@@ -8,7 +8,7 @@ import {TextAnimate} from '@/components/magicui/text-animate';
 import { BlurFade } from '@/components/magicui/blur-fade';
 import HowItWork from '@/components/homepage/HowItWorks';
 import SolidButton from '@/components/primary/Buttons/SolidButton';
-import { useNavigate , useLocation } from 'react-router-dom';
+import { useNavigate , useLocation } from 'react-router';
 import AppText from '@/components/primary/text/AppText';
 import {useNaems} from "@/context/NaemsContext";
 
@@ -30,10 +30,10 @@ const Home =()=>{
 
     const { setLoading } = useNaems()
 
-  useEffect(()=>{
-      // setLoading(true)
-    window.scrollTo(0,0)
-  },[])
+  // useEffect(()=>{
+  //     // setLoading(true)
+  //   window.scrollTo(0,0)
+  // },[])
 
     return(
         <>

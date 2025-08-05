@@ -1,15 +1,18 @@
 import React, {useState , useEffect} from 'react'
-import { useNavigate} from 'react-router-dom'
+import { useNavigate} from 'react-router'
 import { X} from "lucide-react"
 import {useNaems} from "@/context/NaemsContext";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import SolidButton from "@/components/primary/Buttons/SolidButton";
+import OutlineButton from '../primary/Buttons/OutlineButton';
 
 const Payment =()=>{
+    const [display , setDisplay] = useState(false)
+    const [transID , setTransID] = useState("")
     const navigator = useNavigate()
 
-    const { formData , resetForm , setFormData , message , setMessage } = useNaems();
+    const { formData , setResetForm , setLoading , message , setMessage } = useNaems();
 
 
     const initialPaymentValues = {
@@ -27,26 +30,18 @@ const Payment =()=>{
 
 
     // Handle payment submission
-    const handlePaymentSubmit = (values, { setSubmitting }) => {
-
-
-        setMessage('Payment processing... Please confirm the transaction on your phone.');
-        setSubmitting(true)
+    const handleSubmit = () => {
+        setLoading(true)
         try{
-            console.log(values)
-            setTimeout(() => {
-                setMessage('Your 50% deposit has been received! Your order is confirmed.');
-                setSubmitting(false)
-                navigator("/book")
-                resetForm()
-            }, 3000); // 3 seconds delay for simulation
-
-        }catch (e) {
-            console.log( "error :", e)
-            setMessage('An error, please try again');
-            setSubmitting(false)
+            console.log(formData)
+            alet(transID)
+            navigator("/")
+        }catch(error){
+            console.log(error)
+        }finally{
+            setResetForm(true)  
         }
-
+    
     };
 
 
@@ -81,13 +76,31 @@ const Payment =()=>{
                     MTN
                 </div>
 
-                <div  className={"w-full flex justify-center items-center text-lg"}>
+                { display && <div className='flex flex-col mb-6 px-9'>
+                    <label className='text-center font-semibold text-blue-700'>
+                        Enter Transcation ID
+                    </label>
+
+                    <input 
+                        placeholder='Transcation ID'
+                        value={transID}
+                        onChange={e=> setTransID(e.target.value)} 
+                        className='text-md p-2 rounded bg-gray-100 '
+                    />
+                </div>}
+
+                <div  className={"w-full flex justify-center items-center gap-2 text-lg"}>
                     <SolidButton
                         title={"Okay"}
-                        className={""}
-                        onClick={()=> {
-                            resetForm()
-                            navigator("/book")
+                        className={`${transID.length < 9 ? "hidden": "flex"}`}
+                        onClick={handleSubmit}
+                    />
+
+                    <OutlineButton 
+                        title={"Payment made"}
+                        className={"text-green-600"}
+                        onClick={()=>{
+                            setDisplay(true)
                         }}
                     />
                 </div>

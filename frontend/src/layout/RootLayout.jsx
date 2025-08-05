@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router'
 import Navbar from '../components/Navbar'
 import Footer from '@/components/Footer'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import {useNaems} from "@/context/NaemsContext";
 import Loading from "@/components/Loading";
 
