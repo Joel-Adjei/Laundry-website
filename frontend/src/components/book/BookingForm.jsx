@@ -73,7 +73,7 @@ const BookingForm =()=>{
                                 id="name"
                                 name="name"
                                 className={inputStyle}
-                                placeholder="John Doe"
+                                placeholder="eg. Emmanuel Pinto"
                             />
                             <ErrorMessage name="name" component="div" className="text-red-300 text-sm mt-1" />
                         </div>

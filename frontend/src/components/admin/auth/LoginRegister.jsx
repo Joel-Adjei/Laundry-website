@@ -5,6 +5,7 @@ import {Formik , Form, Field , ErrorMessage} from "formik";
 import {useAuth} from "@/context/AuthContext";
 import {useNavigate} from "react-router";
 import Loading from "@/components/Loading";
+import SolidButton from "@/components/primary/Buttons/SolidButton";
 
 // Main application component
 export default function LoginRegister() {
@@ -25,7 +26,7 @@ export default function LoginRegister() {
         <div className="flex justify-center mb-6">
           {/*<Laundry size={64} className="text-blue-600" />*/}
         </div>
-        <h1 className="text-3xl font-bold text-center text-slate-800 mb-2">
+        <h1 className="text-3xl font-bold text-center text-green-700 mb-2">
            Welcome Back!
         </h1>
         <p className="text-center text-slate-600 mb-6">
@@ -105,34 +106,28 @@ const LoginForm = ({ onAuthSuccess, setMessage }) => {
                               id={"email"}
                               name={"email"}
                               type={"email"}
+                              className={inputStyle}
                           />
-                          <ErrorMessage id={"email"} name={"email"} />
+                          <ErrorMessage name={"email"} component="div" className="text-red-300 text-sm mt-1"   />
                       </div>
                       <div className="relative">
                           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                          <input
+                          <Field
                               type="password"
                               placeholder="Password"
-                              value={password}
-                              onChange={(e) => setPassword(e.target.value)}
+                              name={"password"}
                               required
-                              className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
+                              className={inputStyle}
                           />
+                        <ErrorMessage name={"password"} component="div" className="text-red-300 text-sm mt-1"   />
                       </div>
-                      <button
+                      <SolidButton
                           type="submit"
                           disabled={isLoading}
                           className="w-full flex items-center justify-center bg-green-800 text-white font-bold py-3 px-4 rounded-xl hover:bg-green-700 transition duration-300 shadow-lg disabled:bg-green-300"
-                      >
-                          {isLoading ? (
-                              <>
-                                  <Loader2 className="animate-spin mr-2" size={20} />
-                                  Logging in...
-                              </>
-                          ) : (
-                              'Login'
-                          )}
-                      </button>
+
+                          title={"Login"}
+                        />
                   </Form>
               )
           }

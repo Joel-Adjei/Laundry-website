@@ -5,6 +5,7 @@ import Footer from '@/components/Footer'
 import { useLocation } from 'react-router'
 import {useNaems} from "@/context/NaemsContext";
 import Loading from "@/components/Loading";
+import PaymentNotification from "@/components/book/payment-notification";
 
 const RootLayout = () => {
     const { loading, setLoading } = useNaems()

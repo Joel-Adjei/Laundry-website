@@ -14,7 +14,7 @@ const HeroSection =()=>{
             <div>
                 <div className="space-y-4">
                   <BlurFade delay={0.2} inView>
-                      <h1 className="text-5xl text-center font-bold text-gray-900 leading-tight md:text-left lg:text-7xl">
+                      <h1 className="text-5xl text-center font-extrabold text-gray-900 leading-tight md:text-left lg:text-7xl">
                   Fresh & Clean
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-green-600">
                     Every Time

@@ -5,14 +5,19 @@ import {useNaems} from "@/context/NaemsContext";
 import mtn from "../../assets/images/mtn-logo.jpg"
 import SolidButton from "@/components/primary/Buttons/SolidButton";
 import OutlineButton from '../primary/Buttons/OutlineButton';
+import Loading from "@/components/Loading";
+import PaymentNotification from "@/components/book/payment-notification";
 
 const Payment =()=>{
+    const [loading , setLoading] = useState(false)
     const [display , setDisplay] = useState(false)
     const [transID , setTransID] = useState("")
+    const [isSuccess , setIsSuccess] = useState(true)
+    const [isVisible , setIsVisible] = useState(false)
     const [transIDError, setTransIDError] = useState("")
     const navigator = useNavigate()
 
-    const { formData , setResetForm , setLoading , message , setMessage } = useNaems();
+    const { formData , setResetForm, setLoading: appLoading  , message , setMessage } = useNaems();
 
     // Validation function for transaction ID
     const validateTransactionID = (id) => {
@@ -69,18 +74,27 @@ const Payment =()=>{
             return;
         }
 
-        setLoading(true)
         const payload = {
             data: formData,
             transID : transID,
         }
         try{
             console.log(payload)
-            navigator("/")
+            setTimeout(()=>{
+                navigator("/")
+                appLoading(true)
+            },2000)
+
+            setIsVisible(true)
+            setMessage("Process successful")
+            setIsSuccess(true)
         }catch(error){
             console.log(error)
+            setIsSuccess(true)
+            setMessage("An error")
         }finally{
             setResetForm(true)
+            setMessage("")
         }
     
     };
@@ -88,6 +102,12 @@ const Payment =()=>{
 
     return (
         <div className={"z-60 w-full h-[100dvh] fixed top-0 left-0 flex items-center justify-center bg-gray-300/70"}>
+            <PaymentNotification
+                type={`${isSuccess ? "success" : "error"}`}
+                message={message}
+                onClose={()=> navigator("/")}
+                isVisible={isVisible}
+            />
 
             <div className=" relative p-4 md:p-0 md:border border-green-500 rounded-xl">
                 <button
@@ -119,12 +139,11 @@ const Payment =()=>{
 
                 { display && <div className='flex flex-col mb-6 px-9'>
                     <label className='text-center font-semibold text-blue-700'>
-                        Enter Transcation ID
+                        Enter Transaction ID
                     </label>
 
                     <input
                         placeholder='e.g. MP123456789 or 12345678'
-                        type={"number"}
                         value={transID}
                         onChange={handleTransIDChange}
                         onBlur={handleTransIDBlur}
@@ -157,7 +176,8 @@ const Payment =()=>{
 
                     <OutlineButton 
                         title={"Payment made"}
-                        className={`${display && "hidden" } text-green-600`}
+                        disabled={isVisible}
+                        className={`${display && "hidden" } disabled:cursor-error text-green-600`}
                         onClick={()=>{
                             setDisplay(true)
                         }}
