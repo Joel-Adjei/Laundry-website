@@ -14,6 +14,7 @@ import Customers from "@/components/admin/Customers";
 import LoginRegister from "@/components/admin/auth/LoginRegister";
 import {AuthContextProvider} from "@/context/AuthContext";
 import Bookings from "@/components/admin/Bookings";
+import OnDevelopment from "@/components/OnDevelopment";
 
 
 function App() {
@@ -46,11 +47,12 @@ function App() {
   )
   return (
     <>
-        <NaemsContextProvider>
-            <AuthContextProvider>
-                <RouterProvider router={router} />
-            </AuthContextProvider>
-        </NaemsContextProvider>
+        <OnDevelopment />
+        {/*<NaemsContextProvider>*/}
+        {/*    <AuthContextProvider>*/}
+        {/*        <RouterProvider router={router} />*/}
+        {/*    </AuthContextProvider>*/}
+        {/*</NaemsContextProvider>*/}
     </>
   )
 }
