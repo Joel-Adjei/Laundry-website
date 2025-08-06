@@ -57,12 +57,12 @@ const Navbar =()=>{
                     About
                 </NavLink>
 
-                <NavLink to={"/terms-and-conditions"} onClick={()=> {
-                    setDisplayNav("hidden")
-                    setLoading(true)
-                }} className={linkStyle} >
-                    Terms and Conditions
-                </NavLink>
+                {/*<NavLink to={"/terms-and-conditions"} onClick={()=> {*/}
+                {/*    setDisplayNav("hidden")*/}
+                {/*    setLoading(true)*/}
+                {/*}} className={linkStyle} >*/}
+                {/*    Terms and Conditions*/}
+                {/*</NavLink>*/}
                 
                 <a onClick={()=> {
                     navigator("/about")

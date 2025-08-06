@@ -3,15 +3,23 @@ import { Calendar, Users, Package, DollarSign, Search, Filter, Eye, Edit, Trash2
 import {useNaems} from "@/context/NaemsContext";
 import Customers from "@/components/admin/Customers";
 import AdminNavbar from "@/components/admin/AdminNavbar";
+import {useAuth} from "@/context/AuthContext";
+import {useNavigate} from "react-router";
 
 const LaundryAdminDashboard = () => {
-  // const [activeTab, setActiveTab] = useState('dashboard');
+    const navigator = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   const {bookings, activeTab , updateBookingStatus} = useNaems()
+    const {isLogin} = useAuth()
+
+    useEffect(()=>{
+        !isLogin && navigator("/admin/auth/login")
+        console.log(!isLogin)
+    },[])
 
 
   const getStatusColor = (status) => {

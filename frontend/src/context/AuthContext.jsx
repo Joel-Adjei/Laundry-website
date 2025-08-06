@@ -3,7 +3,7 @@ import React, {createContext, useContext, useState} from "react";
 const AuthContext = createContext();
 
 export const AuthContextProvider =({children})=>{
-    const [isLogin, setIsLogin] = useState(true);
+    const [isLogin, setIsLogin] = useState(false);
     const [token, setToken] = useState(null);
     const [user, setUser] = useState(null);
     const [message, setMessage] = useState('');

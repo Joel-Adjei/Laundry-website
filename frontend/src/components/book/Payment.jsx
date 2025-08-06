@@ -2,38 +2,80 @@ import React, {useState , useEffect} from 'react'
 import { useNavigate} from 'react-router'
 import { X} from "lucide-react"
 import {useNaems} from "@/context/NaemsContext";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import mtn from "../../assets/images/mtn-logo.jpg"
 import SolidButton from "@/components/primary/Buttons/SolidButton";
 import OutlineButton from '../primary/Buttons/OutlineButton';
 
 const Payment =()=>{
     const [display , setDisplay] = useState(false)
     const [transID , setTransID] = useState("")
+    const [transIDError, setTransIDError] = useState("")
     const navigator = useNavigate()
 
     const { formData , setResetForm , setLoading , message , setMessage } = useNaems();
 
+    // Validation function for transaction ID
+    const validateTransactionID = (id) => {
+        const cleanId = id.replace(/\s/g, '');
 
-    const initialPaymentValues = {
-        mobileMoneyNumber: '',
-        network: '',
+        if (!cleanId) {
+            return "Transaction ID is required";
+        }
+
+        if (cleanId.length < 11) {
+            return "Transaction ID must be at least 11 characters long";
+        }
+
+        if (cleanId.length > 15) {
+            return "Transaction ID cannot exceed 15 characters";
+        }
+
+        const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+        if (!alphanumericRegex.test(cleanId)) {
+            return "Transaction ID can only contain letters and numbers";
+        }
+
+        return "";
     };
 
-    // Validation schema for the payment form step using Yup
-    const paymentValidationSchema = Yup.object().shape({
-        mobileMoneyNumber: Yup.string()
-            .matches(/^[0-9+]{8,15}$/, 'Invalid mobile money number format')
-            .required('Mobile Money Number is required'),
-        network: Yup.string().required('Network is required'),
-    });
+    // Handle transaction ID input change
+    const handleTransIDChange = (e) => {
+        const value = e.target.value;
+        setTransID(value);
+
+        if (transIDError && value) {
+            setTransIDError("");
+        }
+    };
+
+    // Handle blur event for real-time validation
+    const handleTransIDBlur = () => {
+        const error = validateTransactionID(transID);
+        setTransIDError(error);
+    };
+
+    // Check if transaction ID is valid
+    const isTransIDValid = () => {
+        return transID.replace(/\s/g, '').length >= 11 && !validateTransactionID(transID);
+    };
+
 
 
     // Handle payment submission
     const handleSubmit = () => {
+        const error = validateTransactionID(transID);
+        if (error) {
+            setTransIDError(error);
+            return;
+        }
+
         setLoading(true)
+        const payload = {
+            data: formData,
+            transID : transID,
+        }
         try{
-            // console.log(formData)
+            console.log(payload)
             navigator("/")
         }catch(error){
             console.log(error)
@@ -42,10 +84,6 @@ const Payment =()=>{
         }
     
     };
-
-
-    // Mobile Money Networks
-    const mobileMoneyNetworks = ['MTN', 'Telecel', 'AirtelTigo'];
 
 
     return (
@@ -73,7 +111,10 @@ const Payment =()=>{
                 <div className="text-center text-lg mb-6 text-gray-700 leading-10" >
                     Please make payment to the number below <br />
                     <span className={"bg-blue-700 py-2 px-4 rounded text-blue-50 text-2xl font-bold"}>0531-547-562 <br /></span>
-                    MTN
+                    <div className={"mt-2 text-sm font-bold text-gray-500 "}>
+                        <img src={mtn} className={"mx-auto rounded-lg w-20 object-contain"} />
+                        MTN
+                    </div>
                 </div>
 
                 { display && <div className='flex flex-col mb-6 px-9'>
@@ -81,24 +122,42 @@ const Payment =()=>{
                         Enter Transcation ID
                     </label>
 
-                    <input 
-                        placeholder='Transcation ID'
+                    <input
+                        placeholder='e.g. MP123456789 or 12345678'
+                        type={"number"}
                         value={transID}
-                        onChange={e=> setTransID(e.target.value)} 
-                        className='text-md p-2 rounded bg-gray-100 '
+                        onChange={handleTransIDChange}
+                        onBlur={handleTransIDBlur}
+                        className={`text-md p-3 rounded bg-gray-100 border focus:shadow-lg transition-colors focus:outline-none ${
+                            transIDError
+                                ? 'border-red-400 focus:border-red-500'
+                                : isTransIDValid()
+                                ? 'border-green-400 focus:border-green-500'
+                                : 'border-blue-400 focus:border-blue-500'
+                        }`}
                     />
+                    {transIDError && (
+                        <span className="text-red-500 text-sm mt-1 text-center">
+                                    {transIDError}
+                                </span>
+                    )}
+                    {/*{!transIDError && transID && isTransIDValid() && (*/}
+                    {/*    <span className="text-green-500 text-sm mt-1 text-center">*/}
+                    {/*                ✓ Valid transaction ID*/}
+                    {/*            </span>*/}
+                    {/*)}*/}
                 </div>}
 
                 <div  className={"w-full flex justify-center items-center gap-2 text-lg"}>
                     <SolidButton
                         title={"Okay"}
-                        className={`${transID.length < 9 ? "hidden": "flex"}`}
+                        className={`${!isTransIDValid() ? "hidden": "flex"}`}
                         onClick={handleSubmit}
                     />
 
                     <OutlineButton 
                         title={"Payment made"}
-                        className={"text-green-600"}
+                        className={`${display && "hidden" } text-green-600`}
                         onClick={()=>{
                             setDisplay(true)
                         }}
@@ -106,67 +165,6 @@ const Payment =()=>{
                 </div>
             </div>
 
-
-            {/*<Formik*/}
-            {/*    initialValues={initialPaymentValues}*/}
-            {/*    validationSchema={paymentValidationSchema}*/}
-            {/*    onSubmit={handlePaymentSubmit}*/}
-            {/*>*/}
-            {/*    {({ values: paymentValues, isSubmitting }) => (*/}
-            {/*        <Form className="bg-green-50 p-6 pt-0 rounded-b-xl shadow-inner border border-green-200">*/}
-
-
-            {/*            <div className="space-y-4">*/}
-            {/*                <div>*/}
-            {/*                    <label htmlFor="mobileMoneyNumber" className="block text-sm font-medium text-gray-700 mb-1">*/}
-            {/*                        Mobile Money Number*/}
-            {/*                    </label>*/}
-            {/*                    <Field*/}
-            {/*                        type="tel"*/}
-            {/*                        id="mobileMoneyNumber"*/}
-            {/*                        name="mobileMoneyNumber"*/}
-            {/*                        className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 transition duration-200 ease-in-out placeholder-gray-400"*/}
-            {/*                        placeholder="Eg. 024xxxxxxx or +23324xxxxxxx"*/}
-            {/*                    />*/}
-            {/*                    <ErrorMessage name="mobileMoneyNumber" component="div" className="text-red-500 text-sm mt-1" />*/}
-            {/*                </div>*/}
-            {/*                <div>*/}
-            {/*                    <label htmlFor="network" className="block text-sm font-medium text-gray-700 mb-1">*/}
-            {/*                        Mobile Money Network*/}
-            {/*                    </label>*/}
-            {/*                    <Field*/}
-            {/*                        as="select"*/}
-            {/*                        id="network"*/}
-            {/*                        name="network"*/}
-            {/*                        className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 transition duration-200 ease-in-out"*/}
-            {/*                    >*/}
-            {/*                        <option value="">Select Network</option>*/}
-            {/*                        {mobileMoneyNetworks.map((network) => (*/}
-            {/*                            <option key={network} value={network}>*/}
-            {/*                                {network}*/}
-            {/*                            </option>*/}
-            {/*                        ))}*/}
-            {/*                    </Field>*/}
-            {/*                    <ErrorMessage name="network" component="div" className="text-red-500 text-sm mt-1" />*/}
-            {/*                </div>*/}
-            {/*                <button*/}
-            {/*                    type="submit"*/}
-            {/*                    disabled={isSubmitting}*/}
-            {/*                    className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold text-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"*/}
-            {/*                >*/}
-            {/*                    {isSubmitting ? 'Processing Payment...' : `Pay GHS ${(formData.price / 2).toFixed(2)}`}*/}
-            {/*                </button>*/}
-            {/*                <button*/}
-            {/*                    type="button"*/}
-            {/*                    onClick={() => navigator(-1)}*/}
-            {/*                    className="w-full mt-3 bg-gray-300 text-gray-800 py-3 rounded-lg font-semibold text-lg shadow-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-300 ease-in-out"*/}
-            {/*                >*/}
-            {/*                    Back to Order Form*/}
-            {/*                </button>*/}
-            {/*            </div>*/}
-            {/*        </Form>*/}
-            {/*    )}*/}
-            {/*</Formik>*/}
         </div>
         </div>
     )

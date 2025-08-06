@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { Mail, Lock, User, Loader2 } from 'lucide-react';
+import * as Yup from "yup"
+import {Formik , Form, Field , ErrorMessage} from "formik";
 import {useAuth} from "@/context/AuthContext";
 import {useNavigate} from "react-router";
 import Loading from "@/components/Loading";
@@ -50,6 +52,18 @@ const LoginForm = ({ onAuthSuccess, setMessage }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigator = useNavigate()
 
+    const inputStyle = "w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
+
+    const initialValues = {
+        email : "",
+        password: ""
+    }
+
+    const validationSchema = Yup.object().shape({
+        email : Yup.string().email().required().label("Email"),
+        password : Yup.string().required().min(8).label("Email"),
+    })
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -81,43 +95,47 @@ const LoginForm = ({ onAuthSuccess, setMessage }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="relative">
-        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-        <input
-          type="email"
-          placeholder="Email address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
-        />
-      </div>
-      <div className="relative">
-        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
-        />
-      </div>
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="w-full flex items-center justify-center bg-green-800 text-white font-bold py-3 px-4 rounded-xl hover:bg-green-700 transition duration-300 shadow-lg disabled:bg-green-300"
-      >
-        {isLoading ? (
-          <>
-            <Loader2 className="animate-spin mr-2" size={20} />
-            Logging in...
-          </>
-        ) : (
-          'Login'
-        )}
-      </button>
-    </form>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit} >
+          {
+              ()=>(
+                  <Form onSubmit={handleSubmit} className="space-y-4">
+                      <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                          <Field
+                              id={"email"}
+                              name={"email"}
+                              type={"email"}
+                          />
+                          <ErrorMessage id={"email"} name={"email"} />
+                      </div>
+                      <div className="relative">
+                          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                          <input
+                              type="password"
+                              placeholder="Password"
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              required
+                              className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
+                          />
+                      </div>
+                      <button
+                          type="submit"
+                          disabled={isLoading}
+                          className="w-full flex items-center justify-center bg-green-800 text-white font-bold py-3 px-4 rounded-xl hover:bg-green-700 transition duration-300 shadow-lg disabled:bg-green-300"
+                      >
+                          {isLoading ? (
+                              <>
+                                  <Loader2 className="animate-spin mr-2" size={20} />
+                                  Logging in...
+                              </>
+                          ) : (
+                              'Login'
+                          )}
+                      </button>
+                  </Form>
+              )
+          }
+      </Formik>
   );
 };

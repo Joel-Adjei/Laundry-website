@@ -14,7 +14,7 @@ export const images = {
     pack_cloths : packageC,
     washingMach : washM,
     manIroning : manIron,
-    delivery : delivery
+    delivery : delivery,
 };
 
 export const colors = {
