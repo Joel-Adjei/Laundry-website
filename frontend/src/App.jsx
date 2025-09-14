@@ -33,7 +33,7 @@ function App() {
                 </Route>
                 <Route path='/about' element={<About />} />
             </Route>
-            <Route path='/admin/dashboard' element={<AdminLayout />} >
+            <Route path='/admin' element={<AdminLayout />} >
                 <Route index element={<LaundryAdminDashboard />} />
                 <Route path={"customers"} element={<Customers />} />
                 <Route path={"bookings"} element={<Bookings />} />
@@ -47,12 +47,12 @@ function App() {
   )
   return (
     <>
-        <OnDevelopment />
-        {/*<NaemsContextProvider>*/}
-        {/*    <AuthContextProvider>*/}
-        {/*        <RouterProvider router={router} />*/}
-        {/*    </AuthContextProvider>*/}
-        {/*</NaemsContextProvider>*/}
+        {/*<OnDevelopment />*/}
+        <NaemsContextProvider>
+            <AuthContextProvider>
+                <RouterProvider router={router} />
+            </AuthContextProvider>
+        </NaemsContextProvider>
     </>
   )
 }

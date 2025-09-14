@@ -9,6 +9,7 @@ import {colors, images , services} from '@/assets/assest';
 import AppText from '@/components/primary/text/AppText';
 import OutlineButton from '@/components/primary/Buttons/OutlineButton';
 import Contact from "@/components/contact/Contact";
+import usePageTile from '@/hooks/usePageTitle';
 
 
 
@@ -45,6 +46,7 @@ const stats = [
 
 const About =()=>{
     const navigator = useNavigate()
+    usePageTile("About")
 
     return(
         <>

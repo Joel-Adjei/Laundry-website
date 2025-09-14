@@ -13,6 +13,7 @@ export const AuthContextProvider =({children})=>{
         setToken(newToken);
         setUser(newUser);
         setMessage(`Welcome, ${newUser.username}!`);
+        setIsLogin(true)
     };
 
     const handleLogout =() => {

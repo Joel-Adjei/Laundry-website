@@ -69,26 +69,26 @@ const PaymentNotification = ({
   if (!show) return null;
 
   return (
-    <div className="fixed top-4 right-4 z-50 w-full max-w-md">
+    <div className="w-full max-w-md ">
       <div 
         className={`
           transform transition-all duration-300 ease-in-out
           ${show ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}
-          ${config.bgColor} ${config.borderColor} ${config.textColor}
-          border rounded-lg shadow-lg p-4
-          backdrop-blur-sm
+          $ ${config.borderColor} ${config.textColor}
+          borde rounded-lg shadow-l p-4
+          backdrop-blur-sm mx-4
         `}
       >
-        <div className="flex items-start space-x-3">
-          <Icon className={`w-6 h-6 ${config.iconColor} flex-shrink-0 mt-0.5`} />
+        <div className="flex flex-col items-center space-y-4">
+          <Icon className={`w-35 h-35 ${config.iconColor} flex-shrink-0 mt-0.5`} />
           
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium leading-5">
+            <p className="text-lg font-medium leading-5">
               {displayMessage}
             </p>
           </div>
           
-          <button
+          {/* <button
             onClick={handleClose}
             className={`
               flex-shrink-0 rounded-md p-1.5 
@@ -98,7 +98,7 @@ const PaymentNotification = ({
             `}
           >
             <X className="w-4 h-4" />
-          </button>
+          </button> */}
         </div>
         
         {/* Progress bar for auto-hide */}

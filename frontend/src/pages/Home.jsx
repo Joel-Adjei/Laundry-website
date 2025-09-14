@@ -11,6 +11,7 @@ import SolidButton from '@/components/primary/Buttons/SolidButton';
 import { useNavigate , useLocation } from 'react-router';
 import AppText from '@/components/primary/text/AppText';
 import {useNaems} from "@/context/NaemsContext";
+import usePageTile from '@/hooks/usePageTitle';
 
 const InfoCard =({title , desc , logo})=>{
     return(
@@ -29,6 +30,7 @@ const Home =()=>{
   const navigator = useNavigate()
 
     const { setLoading } = useNaems()
+    usePageTile("Home")
 
   // useEffect(()=>{
   //     // setLoading(true)

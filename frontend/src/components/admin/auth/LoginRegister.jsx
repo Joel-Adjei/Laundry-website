@@ -1,23 +1,27 @@
 import React, {useEffect, useState} from 'react';
-import { Mail, Lock, User, Loader2 } from 'lucide-react';
+import { Mail, Lock, User, Loader2, Loader } from 'lucide-react';
 import * as Yup from "yup"
 import {Formik , Form, Field , ErrorMessage} from "formik";
 import {useAuth} from "@/context/AuthContext";
 import {useNavigate} from "react-router";
 import Loading from "@/components/Loading";
 import SolidButton from "@/components/primary/Buttons/SolidButton";
+import useFetch from '@/hooks/useFetch';
+import usePageTile from '@/hooks/usePageTitle';
 
 // Main application component
 export default function LoginRegister() {
   const navigator = useNavigate()
+  usePageTile("Login")
   const { isLogin , user , token , message , setMessage , handleAuthSuccess , handleLogout, toggleView} = useAuth()
 
   useEffect(()=> {
-    user && navigator("/admin/dashboard");
-  })
-  if (user) {
-    navigator("/admin/dashboard");
-    return <Loading />
+    user && navigator("/admin");
+  },[])
+
+  if (isLogin) {
+    navigator("/admin");
+    return null
   }
 
   return (
@@ -52,6 +56,7 @@ const LoginForm = ({ onAuthSuccess, setMessage }) => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigator = useNavigate()
+  const {fetchData ,response} = useFetch({method:"POST" , endpoint: "/admin/admin/login" ,})
 
     const inputStyle = "w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
 
@@ -65,26 +70,24 @@ const LoginForm = ({ onAuthSuccess, setMessage }) => {
         password : Yup.string().required().min(8).label("Email"),
     })
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async ( values) => {
     setIsLoading(true);
     setMessage('');
+    const payload = {
+      "email": `${values.email}`,
+      "password": `${values.password}`,
+    }
 
     try {
-      const response = await fetch('http://localhost:3000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      await fetchData({payload: payload} )
+      // console.log(response)
+      const data = await response.current.json()
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if(response.current.ok){
         onAuthSuccess(data.token, data.user);
-        navigator("/admin/dashboard" , {replace: true})
-      } else {
+        navigator("/admin" , {replace: true})
+      }else{
+        console.log("erorrr")
         setMessage(data.message || 'Login failed. Please try again.');
       }
     } catch (error) {
@@ -96,10 +99,10 @@ const LoginForm = ({ onAuthSuccess, setMessage }) => {
   };
 
   return (
-      <Formik initialValues={initialValues} onSubmit={handleSubmit} >
+      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} >
           {
               ()=>(
-                  <Form onSubmit={handleSubmit} className="space-y-4">
+                  <Form className="space-y-4">
                       <div className="relative">
                           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                           <Field
@@ -116,7 +119,6 @@ const LoginForm = ({ onAuthSuccess, setMessage }) => {
                               type="password"
                               placeholder="Password"
                               name={"password"}
-                              required
                               className={inputStyle}
                           />
                         <ErrorMessage name={"password"} component="div" className="text-red-300 text-sm mt-1"   />
@@ -126,7 +128,7 @@ const LoginForm = ({ onAuthSuccess, setMessage }) => {
                           disabled={isLoading}
                           className="w-full flex items-center justify-center bg-green-800 text-white font-bold py-3 px-4 rounded-xl hover:bg-green-700 transition duration-300 shadow-lg disabled:bg-green-300"
 
-                          title={"Login"}
+                          title={isLoading? <Loader2 className='animate-spin' /> : "Login"}
                         />
                   </Form>
               )

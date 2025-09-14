@@ -1,193 +1,210 @@
-import React, {useState , useEffect} from 'react'
-import { useNavigate} from 'react-router'
-import { X} from "lucide-react"
-import {useNaems} from "@/context/NaemsContext";
+import React, { useEffect, useState } from "react";
+import { Formik, Form, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
+import { useNavigate } from "react-router";
+import { useNaems } from "@/context/NaemsContext";
+import OutlineButton from "@/components/primary/Buttons/OutlineButton";
 import mtn from "../../assets/images/mtn-logo.jpg"
-import SolidButton from "@/components/primary/Buttons/SolidButton";
-import OutlineButton from '../primary/Buttons/OutlineButton';
-import Loading from "@/components/Loading";
-import PaymentNotification from "@/components/book/payment-notification";
+import { ArrowLeftIcon } from "lucide-react";
+import PayementProcess from "./PaymentProcess";
+import usePageTile from "@/hooks/usePageTitle";
 
-const Payment =()=>{
-    const [loading , setLoading] = useState(false)
-    const [display , setDisplay] = useState(false)
-    const [transID , setTransID] = useState("")
-    const [isSuccess , setIsSuccess] = useState(true)
-    const [isVisible , setIsVisible] = useState(false)
-    const [transIDError, setTransIDError] = useState("")
-    const navigator = useNavigate()
+const Payment = () => {
+  const navigate = useNavigate();
+  const { formData, totalPrice ,resetItems, setResetForm, message, setFormData , setMessage } = useNaems();
+  const [paymentMethod, setPaymentMethod] = useState("MTN MoMo"); // Default payment method
+  const [isVisible , setIsVisible] = useState(false)
+  usePageTile("Payment")
 
-    const { formData , setResetForm, setLoading: appLoading  , message , setMessage } = useNaems();
+  useEffect(()=>{
+    console.log(formData)
+    const booking = localStorage.getItem("booking")
+    setFormData(JSON.parse(booking))
+    console.log(formData)
+  },[])
 
-    // Validation function for transaction ID
-    const validateTransactionID = (id) => {
-        const cleanId = id.replace(/\s/g, '');
+  // Define initial values for Formik
+  const initialValues = {
+    paymentMethod: paymentMethod,
+    paymentPhoneNumber: "", // Phone number for payment
+  };
 
-        if (!cleanId) {
-            return "Transaction ID is required";
-        }
+  // Define validation schema using Yup
+  const validationSchema = Yup.object().shape({
+    paymentMethod: Yup.string().required("Payment method is required"),
+    paymentPhoneNumber: Yup.string()
+      .matches(/^[0-9+]{8,15}$/, "Invalid phone number format")
+      .required("Payment phone number is required"),
+  });
 
-        if (cleanId.length < 11) {
-            return "Transaction ID must be at least 11 characters long";
-        }
+  // Handle form submission
+  const handleSubmit = (values, { setSubmitting }) => {
+    setSubmitting(true);
 
-        if (cleanId.length > 15) {
-            return "Transaction ID cannot exceed 15 characters";
-        }
-
-        const alphanumericRegex = /^[a-zA-Z0-9]+$/;
-        if (!alphanumericRegex.test(cleanId)) {
-            return "Transaction ID can only contain letters and numbers";
-        }
-
-        return "";
+    const payload = {
+      ...values,
+      amount: (totalPrice() / 2).toFixed(2), // 50% deposit
     };
 
-    // Handle transaction ID input change
-    const handleTransIDChange = (e) => {
-        const value = e.target.value;
-        setTransID(value);
+    try {
+      console.log("Payment Payload:", payload);
 
-        if (transIDError && value) {
-            setTransIDError("");
-        }
-    };
+      // Simulate successful payment
+      setTimeout(() => {
+        setResetForm(true);
+        resetItems()
+        localStorage.removeItem("booking")
+      }, 7000);
 
-    // Handle blur event for real-time validation
-    const handleTransIDBlur = () => {
-        const error = validateTransactionID(transID);
-        setTransIDError(error);
-    };
+      setIsVisible(true)
 
-    // Check if transaction ID is valid
-    const isTransIDValid = () => {
-        return transID.replace(/\s/g, '').length >= 11 && !validateTransactionID(transID);
-    };
+    } catch (error) {
+      console.error("Payment Error:", error);
+      setMessage({status:"error" ,text:"An error occurred during payment."});
+    } finally {
+      setSubmitting(false);
+      setMessage("")
+    }
+  };
 
+  if(formData.name == ''){
+    return null
+  }
 
-
-    // Handle payment submission
-    const handleSubmit = () => {
-        const error = validateTransactionID(transID);
-        if (error) {
-            setTransIDError(error);
-            return;
-        }
-
-        const payload = {
-            data: formData,
-            transID : transID,
-        }
-        try{
-            console.log(payload)
-            setTimeout(()=>{
-                navigator("/")
-                appLoading(true)
-            },2000)
-
-            setIsVisible(true)
-            setMessage("Process successful")
-            setIsSuccess(true)
-        }catch(error){
-            console.log(error)
-            setIsSuccess(true)
-            setMessage("An error")
-        }finally{
-            setResetForm(true)
-            setMessage("")
-        }
+  return (
+    <>
+    <div className="z-60 fixed top-0 w-full h-[100vh] p-4 flex items-center justify-center gap-2 bg-slate-300/30 backdrop-blur-sm">
+      
     
-    };
+    <div className={"relative w-full  h-[95vh] md:h-[90vh] flex flex-col md:flex-row gap-4 p-0 md:border bg-gray-50 border-green-500 rounded-xl overflow-auto"}>
+      
 
+      {/* Review Section */}
+      <div className="md:flex-1 bg-gray-100 p-6 rounded-lg shadow-md md:overflow-auto">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Review Your Booking</h2>
+        <div className="space-y-3">
 
-    return (
-        <div className={"z-60 w-full h-[100dvh] fixed top-0 left-0 flex items-center justify-center bg-gray-300/70"}>
-            <PaymentNotification
-                type={`${isSuccess ? "success" : "error"}`}
-                message={message}
-                onClose={()=> navigator("/")}
-                isVisible={isVisible}
-            />
-
-            <div className=" relative p-4 md:p-0 md:border border-green-500 rounded-xl">
-                <button
-                    className={"size-12 absolute top-2 right-2  flex items-center justify-center rounded-full cursor-pointer hover:bg-green-300/20"}
-                    onClick={()=> navigator(-1)}
-                >
-                    <X className={"text-white text-lg"} />
-                </button>
-
-                <h2 className="text-2xl font-bold bg-green-800 p-4 rounded-t-xl text-green-100 text-center">Payment Details</h2>
-
-            <div className="p-3 rounded-b-xl bg-white mx-auto">
-                <p className="text-center text-lg mb-6 text-gray-700">
-                    A 50% deposit of{' '}
-                    <span className="font-extrabold text-3xl text-green-600">
-                    GHS {(formData.price / 2).toFixed(2)} {/* Use price from the submitted form data */}
-                  </span>{' '}
-                    is required to confirm your order.
-                </p>
-
-                <div className="text-center text-lg mb-6 text-gray-700 leading-10" >
-                    Please make payment to the number below <br />
-                    <span className={"bg-blue-700 py-2 px-4 rounded text-blue-50 text-2xl font-bold"}>0531-547-562 <br /></span>
-                    <div className={"mt-2 text-sm font-bold text-gray-500 "}>
-                        <img src={mtn} className={"mx-auto rounded-lg w-20 object-contain"} />
-                        MTN
-                    </div>
-                </div>
-
-                { display && <div className='flex flex-col mb-6 px-9'>
-                    <label className='text-center font-semibold text-blue-700'>
-                        Enter Transaction ID
-                    </label>
-
-                    <input
-                        placeholder='e.g. MP123456789 or 12345678'
-                        value={transID}
-                        onChange={handleTransIDChange}
-                        onBlur={handleTransIDBlur}
-                        className={`text-md p-3 rounded bg-gray-100 border focus:shadow-lg transition-colors focus:outline-none ${
-                            transIDError
-                                ? 'border-red-400 focus:border-red-500'
-                                : isTransIDValid()
-                                ? 'border-green-400 focus:border-green-500'
-                                : 'border-blue-400 focus:border-blue-500'
-                        }`}
-                    />
-                    {transIDError && (
-                        <span className="text-red-500 text-sm mt-1 text-center">
-                                    {transIDError}
-                                </span>
-                    )}
-                    {/*{!transIDError && transID && isTransIDValid() && (*/}
-                    {/*    <span className="text-green-500 text-sm mt-1 text-center">*/}
-                    {/*                ✓ Valid transaction ID*/}
-                    {/*            </span>*/}
-                    {/*)}*/}
-                </div>}
-
-                <div  className={"w-full flex justify-center items-center gap-2 text-lg"}>
-                    <SolidButton
-                        title={"Okay"}
-                        className={`${!isTransIDValid() ? "hidden": "flex"}`}
-                        onClick={handleSubmit}
-                    />
-
-                    <OutlineButton 
-                        title={"Payment made"}
-                        disabled={isVisible}
-                        className={`${display && "hidden" } disabled:cursor-error text-green-600`}
-                        onClick={()=>{
-                            setDisplay(true)
-                        }}
-                    />
-                </div>
+          <div className="bg-gray-200 rounded-md space-y-2">
+            <p className="w-full font-bold text-slate-600 bg-gray-300 px-3 ">Info</p>
+            <div className="px-2">
+              <span className="font-bold text-gray-700">Full Name:</span>{" "}
+              <span className="text-gray-600">{formData.name}</span>
             </div>
+            <div className="px-2">
+              <span className="font-bold text-gray-700">Hall of Residence:</span>{" "}
+              <span className="text-gray-600">{formData.locationDetail}</span>
+            </div>
+            <div className="px-2">
+              <span className="font-bold text-gray-700">Room Number:</span>{" "}
+              <span className="text-gray-600">{formData.roomNumber}</span>
+            </div>
+            <div className="px-2">
+              <span className="font-bold text-gray-700">Telephone Number:</span>{" "}
+              <span className="text-gray-600">{formData.phoneNumber}</span>
+            </div>
+          </div>
 
-        </div>
-        </div>
-    )
-}
+          <div className="bg-gray-200 rounded-md">
+            <p className="w-full font-bold text-slate-600 bg-gray-300 px-3 ">Selected Items</p>
+            <ul className="grid sm:grid-cols-2 gap-3 text-gray-600">
+              {formData.selectedItems.map((item, index) => (
+                  <li key={index} className="px-2">
+                    {item.label} - {item.totalPrice.toFixed(2)}
+                    <p>Quantity - {item.count === 0? 1 : item.count}</p>
+                  </li>
+              ))}
+            </ul>
+          </div>
 
-export default Payment
+          <div className="bg-gray-200 rounded-md">
+            <p className="w-full font-bold text-slate-600 bg-gray-300 px-3 ">Special Instructions</p>
+            <p className="p-3">{formData.instructions}</p>
+          </div>
+
+          <div className="w-full flex border border-slate-500 mb-3">
+            <p className=" flex-1 font-bold text-gray-700 p-2 border-r border-slate-500 ">Total Cost:</p>{" "}
+            <p className="text-gray-600 p-2">GHS {totalPrice().toFixed(2)}</p>
+          </div>
+        </div>
+
+      </div>
+
+      {/* Payment Form */}
+      <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+      >
+        {({ values, setFieldValue, isSubmitting }) => (
+            <Form className="space-y-5 bg-green-50 p-6 rounded-lg shadow-md">
+
+              <div>
+                <span className="font-bold text-gray-700">Deposit (50%):</span>{" "}
+                <span className="text-gray-600">GHS {(totalPrice() / 2).toFixed(2)}</span>
+              </div>
+              
+              <h2 className="text-md font-semibold text-green-800 mb-4">Select Payment Method</h2>
+              <div className="flex justify-center gap-4">
+                <div
+                    className={`p-4 border rounded-lg cursor-pointer  ${
+                        values.paymentMethod === "MTN MoMo" ? "border-green-500 bg-green-50" : "border-gray-300"
+                    }`}
+                    onClick={() => setFieldValue("paymentMethod", "MTN MoMo")}
+                >
+                  <img src={mtn} className="size-12" />
+                  <p className="mt-2 font-semibold">MTN MoMo</p>
+                </div>
+                <div
+                    className={`p-4 border rounded-lg cursor-pointer ${
+                        values.paymentMethod === "Telcel Cash" ? "border-green-500 bg-green-50" : "border-gray-300"
+                    }`}
+                    onClick={() => setFieldValue("paymentMethod", "Telcel Cash")}
+                >
+                  <p className="mt-2 font-semibold">Telcel Cash</p>
+                </div>
+              </div>
+              <ErrorMessage name="paymentMethod" component="div" className="text-red-500 text-sm mt-3 text-center" />
+
+              {/* Payment Phone Number */}
+              <div>
+                <label htmlFor="paymentPhoneNumber" className="block text-sm font-medium text-green-800 mb-1">
+                  Payment Phone Number
+                </label>
+                <Field
+                    type="tel"
+                    id="paymentPhoneNumber"
+                    name="paymentPhoneNumber"
+                    className="w-full px-4 py-2 bg-white text-gray-800 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500 transition duration-200 ease-in-out"
+                    placeholder="Eg. +233 24 123 4567"
+                />
+                <ErrorMessage name="paymentPhoneNumber" component="div" className="text-red-500 text-sm mt-1" />
+              </div>
+
+              {/* Submit Button */}
+              <OutlineButton
+                  type="submit"
+                  disabled={isSubmitting}
+                  title={isSubmitting ? "Processing..." : "Confirm Payment"}
+                  className="mx-auto text-green-700 py-3 rounded-lg font-semibold text-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-300 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              />
+            </Form>
+        )}
+      </Formik>
+
+          
+    <OutlineButton
+      className={"md:absolute bottom-2 right-2 m-4  text-sm px-2 flex flex-row-reverse gap-2 items-center justify-center "}
+      onClick={()=> navigate(-1)}
+      title={"Go back to booking"}
+      logo={<ArrowLeftIcon />}
+    />
+    </div>
+
+    </div>
+
+    {isVisible && <PayementProcess data={paymentMethod} />}
+    </>
+  );
+};
+
+export default Payment;

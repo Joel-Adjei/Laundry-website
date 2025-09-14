@@ -2,9 +2,10 @@ import React, {useState} from "react";
 import {AlertCircle, CheckCircle, Clock, Eye, Search, Trash2} from "lucide-react";
 import {useNavigate} from "react-router";
 import {useNaems} from "@/context/NaemsContext";
+import BookDetails from "@/components/admin/BookDetails";
 
 const Bookings =()=>{
-    const {bookings} = useNaems();
+    const {bookings , updateBookingStatus } = useNaems();
 
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
@@ -46,7 +47,7 @@ const Bookings =()=>{
             {/* Search and Filter */}
             <div className=" bg-white rounded-lg shadow p-6 mb-6">
                 <div className="flex flex-col md:flex-row gap-4">
-                    <div className="flex-1">
+                    <div className="flex-1 ">
                         <div className="relative">
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-400 w-4 h-4" />
                             <input
@@ -145,6 +146,21 @@ const Bookings =()=>{
                     </table>
                 </div>
             </div>
+
+            {showModal && (
+                <BookDetails
+                    booking={selectedBooking}
+                    onClose={() => {
+                        setShowModal(false);
+                        setSelectedBooking(null);
+                    }}
+                    onStatusUpdate={(bookingId, status) => {
+                        updateBookingStatus(bookingId, status);
+                        setShowModal(false);
+                        setSelectedBooking(null);
+                    }}
+                />
+            )}
         </div>
     )
 }

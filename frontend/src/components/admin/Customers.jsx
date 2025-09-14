@@ -1,8 +1,10 @@
 import React from "react";
 import {useNaems} from "@/context/NaemsContext";
+import usePageTile from "@/hooks/usePageTitle";
 
 const Customers =()=>{
     const {bookings} = useNaems();
+    usePageTile("Customers")
 
     return (
             <div className="bg-white rounded-lg shadow">

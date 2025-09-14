@@ -1,8 +1,9 @@
-import React, {createContext, useContext, useEffect, useState} from 'react'
+import { orders } from '@/data/data';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 const NaemsContext = createContext();
 
-export const NaemsContextProvider=({children})=>{
+export const NaemsContextProvider = ({ children }) => {
     // State to manage form data
     const [formData, setFormData] = useState({
         name: '',
@@ -15,97 +16,88 @@ export const NaemsContextProvider=({children})=>{
     });
 
     // State to manage form submission message or payment confirmation message
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState({
+        status: "",
+        text: ""
+    });
     const [resetForm, setResetForm] = useState(false);
     const [activeTab, setActiveTab] = useState('dashboard');
-    const [loading , setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    function endLoading(){
-        setTimeout(()=>{
-            setLoading(false)
-        } , 2000)
+    function endLoading() {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
     }
 
-const [bookings, setBookings] = useState([
-    {
-      id: 'BK001',
-      customerName: 'John Smith',
-      email: 'john@email.com',
-      phone: '+1234567890',
-      service: 'Wash & Fold',
-      items: ['Shirts: 5', 'Pants: 3', 'Towels: 2'],
-      pickupDate: '2024-08-05',
-      deliveryDate: '2024-08-07',
-      status: 'pending',
-      amount: 25.50,
-      address: '123 Main St, City, State',
-      specialInstructions: 'Handle delicate items with care'
-    },
-    {
-      id: 'BK002',
-      customerName: 'Sarah Johnson',
-      email: 'sarah@email.com',
-      phone: '+1234567891',
-      service: 'Dry Cleaning',
-      items: ['Suit: 1', 'Dress: 2'],
-      pickupDate: '2024-08-04',
-      deliveryDate: '2024-08-06',
-      status: 'in-progress',
-      amount: 45.00,
-      address: '456 Oak Ave, City, State',
-      specialInstructions: 'Starch on shirts'
-    },
-    {
-      id: 'BK003',
-      customerName: 'Mike Wilson',
-      email: 'mike@email.com',
-      phone: '+1234567892',
-      service: 'Wash & Fold',
-      items: ['Casual wear: 8 items'],
-      pickupDate: '2024-08-03',
-      deliveryDate: '2024-08-05',
-      status: 'completed',
-      amount: 32.75,
-      address: '789 Pine St, City, State',
-      specialInstructions: 'None'
-    },
-    {
-      id: 'BK004',
-      customerName: 'Emily Davis',
-      email: 'emily@email.com',
-      phone: '+1234567893',
-      service: 'Premium Care',
-      items: ['Silk blouse: 2', 'Wool coat: 1'],
-      pickupDate: '2024-08-06',
-      deliveryDate: '2024-08-08',
-      status: 'cancelled',
-      amount: 65.00,
-      address: '321 Elm St, City, State',
-      specialInstructions: 'Extra gentle cycle'
-    }
-  ]);
+    // items selected (changed to useRef)
+    const totalItems = useRef([]);
+
+    // bookings made
+    const [bookings, setBookings] = useState(orders);
 
     const updateBookingStatus = (bookingId, newStatus) => {
         setBookings(bookings.map(booking =>
             booking.id === bookingId ? { ...booking, status: newStatus } : booking
         ));
     };
-    
 
+    // add items
+    const addItem = (newItem) => {
+        const checkItem = totalItems.current.find(({ id }) => id === newItem.id);
+        if (checkItem) {
+            alert("Items already chosen");
+            return;
+        }
+        totalItems.current = [newItem, ...totalItems.current];
+    };
 
+    const removeItem = (item) => {
+        totalItems.current = totalItems.current.filter(({ id }) => id !== item.id);
+        console.log(totalItems.current);
+        console.log(totalItems.current.length);
+    };
 
-    useEffect(()=>{
-        endLoading()
-    },[loading])
+    const itemStatus = (item, status) => {
+        if (status === "add") {
+            addItem(item);
+        } else {
+            removeItem(item);
+        }
+    };
 
-    return(
+    const totalPrice = () => {
+        return totalItems.current.reduce((total, item) => total + item.totalPrice, 0);
+    };
+
+    const updatePrice = (id, newPrice, quantity) => {
+        totalItems.current = totalItems.current.map(item =>
+            item.id === id ? { ...item, totalPrice: newPrice, count: quantity } : item
+        );
+        console.log(totalItems.current);
+    };
+
+    const resetItems =()=>{
+        totalItems.current = []
+    }
+
+    useEffect(() => {
+        endLoading();
+    }, [loading]);
+
+    return (
         <NaemsContext.Provider value={{
-	    bookings,
+            itemStatus,
+            totalItems: totalItems.current,
+            totalPrice,
+            updatePrice,
+            bookings,
             loading,
             formData,
             setFormData,
             message,
             setMessage,
+            resetItems,
             resetForm,
             setResetForm,
             endLoading,
@@ -116,7 +108,7 @@ const [bookings, setBookings] = useState([
         }}>
             {children}
         </NaemsContext.Provider>
-    )
-}
+    );
+};
 
-export const useNaems =()=> useContext(NaemsContext);
+export const useNaems = () => useContext(NaemsContext);

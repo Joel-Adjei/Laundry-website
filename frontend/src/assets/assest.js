@@ -1,7 +1,6 @@
 import logo from './images/logo.png'
 import washingM from  './images/washing-machines.jpg'
 import laundryB from  './images/laundrybag.jpg'
-import React from "react";
 import manIron from "./images/man-ironing.jpg";
 import washM from './images/washing-mash.jpg';
 import packageC from "./images/pack-cloths.jpg"
@@ -59,7 +58,7 @@ export const accraCitiesTowns = [
 ];
 
 // Laundry basket sizes and their details (price and placeholder image URL)
-export const basketSizes = [
+export const LaundryItems = [
     {
         id: 'small',
         name: 'Small Basket',
@@ -74,6 +73,18 @@ export const basketSizes = [
     },
     {
         id: 'large',
+        name: 'Large Basket',
+        price: 35.00,
+        imageUrl: '', // Placeholder for large basket
+    },
+    {
+        id: '2xl',
+        name: 'Medium Basket',
+        price: 25.00,
+        imageUrl: '', // Placeholder for medium basket
+    },
+    {
+        id: 'xl',
         name: 'Large Basket',
         price: 35.00,
         imageUrl: '', // Placeholder for large basket
